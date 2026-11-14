@@ -314,7 +314,38 @@ details.more{border-radius:16px}
 .mod h3{margin:0;font-size:16px}
 #tools .btn{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35)}
 .hk .kpi .st{margin-top:4px}
+html[dir=ltr] #tBack svg{transform:scaleX(-1)}
+#tools .btn{display:inline-flex;align-items:center;justify-content:center;min-width:38px;min-height:36px}
 @media (max-width:560px){.mods{grid-template-columns:1fr}}
+
+/* v2 layout */
+.wrap{max-width:1100px;margin:0 auto;padding:0 12px 28px;display:grid;gap:14px}
+.htabs{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px;margin:10px auto 0;max-width:1076px}
+.htabs button{border:0;background:transparent;border-radius:12px;padding:10px 6px}
+.htabs button[aria-current="page"]{background:linear-gradient(135deg,#0B5868,#168494);color:#fff;box-shadow:0 6px 16px -8px #0B5868}
+.hero2{border-radius:22px;padding:20px 22px;color:#fff;background:radial-gradient(900px 300px at 100% 0,#1A8B9C 0,#0B5868 55%,#093F4A 100%);display:grid;gap:14px;box-shadow:0 18px 40px -26px #0B3D47}
+.hero2 h2{margin:0;font-family:var(--fd);font-size:24px;color:#fff}.hero2 .sub{opacity:.85;font-size:14px}
+.hero2 .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.hero2 select{background:#ffffffEE;border:0;border-radius:12px;padding:9px 12px;font:inherit;font-weight:600;color:#0B3D47}
+.mbar{display:flex;gap:8px}
+.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center}
+.kc .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--accent-soft);flex:none}
+.kc b{display:block;font-family:var(--fd);font-size:24px;line-height:1.1}.kc span{color:var(--muted);font-size:13px}
+.kc.warn{border-color:var(--warn)}.kc.warn .ic{background:var(--warn-soft)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.tile{display:flex;gap:14px;align-items:center;text-align:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;font:inherit;color:var(--ink);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.tile:hover{transform:translateY(-2px);box-shadow:0 12px 26px -18px #0B3D47}
+.tile .ti{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:24px;background:var(--accent-soft);flex:none}
+.tile.main{background:linear-gradient(135deg,#0B5868,#168494);color:#fff;border:0}.tile.main .ti{background:#ffffff26}.tile.main small{color:#ffffffCC}
+.tile b{display:block;font-size:16px}.tile small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.tile:disabled{opacity:.6;cursor:wait}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px}
+.sec h3{margin:0 0 10px;font-size:16px}
+.login2{max-width:440px;margin:22px auto;display:grid;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 50px -34px #0B3D47}
+.login2 .lg{display:flex;gap:12px;align-items:center}.login2 .lg .ti{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:var(--accent-soft)}
+.login2 h2{margin:0;font-size:20px}.login2 .muted{margin:0}
+.note{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -332,10 +363,34 @@ const ORIGIN="https://hmc-diagnostics.github.io",FP_URL=ORIGIN+"/fieldpulse/",EX
 if(/^https?:$/.test(location.protocol)&&!/^(hmc-diagnostics\.github\.io|localhost|127\.0\.0\.1)$/.test(location.hostname)){try{window.top.location.href=ORIGIN+"/hub/";}catch(e){location.href=ORIGIN+"/hub/";}}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const MON=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+let LANG=(()=>{try{return localStorage.getItem("lang")==="en"?"en":"ar";}catch(e){return "ar";}})();
+const MON=LANG==="en"?["January","February","March","April","May","June","July","August","September","October","November","December"]:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const DICT={"بوابة HMC":"HMC Hub","نبض الميدان + المصروفات":"FieldPulse + Expenses","جارِ التحميل…":"Loading…","مسودة":"Draft","بانتظار المراجعة":"Awaiting review","بانتظار الاعتماد":"Awaiting approval","معتمد":"Approved","مرتجع للتعديل":"Returned","مفيش شيت":"No sheet",
+"🏠 الرئيسية":"🏠 Home","📊 لوحة الزيارات":"📊 Visits dashboard","📍 زياراتي":"📍 My visits","🧾 لوحة المصروفات":"🧾 Expenses dashboard","🧾 مصروفاتي":"🧾 My expenses","لوحة المدير":"Manager dashboard",
+"الشهر":"Month","السنة":"Year","دخول المدير":"Manager login","بالرقم السري للمدير بتاع نبض الميدان أو المصروفات — هيفتحلك اللوحتين مرة واحدة.":"Use the FieldPulse or Expenses manager PIN — it opens both dashboards at once.",
+"الرقم السري للمدير":"Manager PIN","دخول":"Log in","← دخول الموظف":"← Employee login","أهلاً في بوابة HMC":"Welcome to HMC Hub","دخول واحد لزياراتك ومصروفاتك. اختار قسمك واسمك واكتب الرقم السري بتاع نبض الميدان.":"One login for your visits and expenses. Pick your department and name, then enter your FieldPulse PIN.",
+"القسم":"Department","اسمك":"Your name","اختار اسمك…":"Choose your name…","الرقم السري":"PIN","🔐 دخول المدير":"🔐 Manager login","📍 نبض الميدان":"📍 FieldPulse","🧾 مصروفات HMC":"🧾 HMC Expenses",
+"تسجيل الزيارات بالموقع، الخطة الأسبوعية، العملاء والفرص.":"Visits with location, weekly plans, clients and opportunities.","شيت المصروفات الشهري، المراجعة والاعتماد، PDF وExcel.":"Monthly expense sheet, review and approval, PDF and Excel.","افتحه لوحده ←":"Open on its own →",
+"حسابك في المصروفات مش مربوط لسه — المدير يربطه من البوابة. الزيارات شغالة عادي.":"Your expenses account isn't linked yet — the manager links it from the hub. Visits work as usual.",
+"يوم ميداني":"field days","مصروفات الشهر (ر.س)":"Expenses this month (SAR)","اعمل إيه دلوقتي؟":"What next?","📍 سجّل زيارة":"📍 Log a visit","🧾 افتح مصروفاتي":"🧾 Open my expenses",
+"«جهّز الشيت من زياراتي» بيضيف بدل يومي لكل يوم فيه زيارة (لو مش موجود)، وبعدين تراجعه وتعدّل النوع (كامل/نص يوم) وتضيف باقي المصاريف وتبعته.":"“Prepare from my visits” adds a daily allowance for each visit day (if missing). Then review it, set full/half day, add other expenses and submit.",
+"— مش مربوط —":"— Not linked —","➕ اعمله حساب مصروفات جديد":"➕ Create a new expenses account","لوحة المدير — الزيارات والمصروفات":"Manager dashboard — visits & expenses","مش مربوطين بالمصروفات":"not linked to expenses",
+"💾 نسخة احتياطية Excel دلوقتي":"💾 Excel backup now","الاسم":"Name","زيارات":"Visits","أيام":"Days","شيت المصروفات":"Expense sheet","الإجمالي":"Total","حسابه في المصروفات":"Expenses account",
+"الربط بيخلّي الموظف يدخل الاتنين برقم سري واحد (بتاع نبض الميدان)، وأيام زياراته تتنقل لشيت مصروفاته. «مقترح» يعني لقينا اسم أو إيميل شبهه.":"Linking gives each employee one PIN (FieldPulse) for both apps and moves visit days into their expense sheet. “Suggested” = a similar name or email was found.",
+"شيت نبض الميدان ↗":"FieldPulse sheet ↗","سجّل زيارة":"Log a visit","وصلت عند العميل · الخطة · العملاء":"Check-in · plan · clients","افتح مصروفاتي":"Open my expenses","الشيت الشهري والـExcel والـPDF":"Monthly sheet, Excel & PDF","بدل يومي لكل يوم زيارة":"Daily allowance per visit day","مراجعة / اعتماد":"Review / approve","لوحة الزيارات":"Visits dashboard","الأرقام · العملاء · الفريق · التقارير":"Numbers · clients · team · reports","لوحة المصروفات":"Expenses dashboard","الشيتات · الموظفين · الإعدادات":"Sheets · employees · settings","نسخة احتياطية Excel دلوقتي":"Excel backup now","الشيتين على Drive":"Both sheets to Drive","شيت المصروفات ↗":"Expenses sheet ↗","جارِ الدخول…":"Logging in…","جارِ التجهيز…":"Preparing…","جارِ عمل النسخة… (ممكن تاخد دقيقة)":"Creating backup… (may take a minute)","فولدر النسخ":"Backup folder",
+"اختار اسمك":"Choose your name","اكتب الرقم السري":"Enter your PIN","اتحدّث ✓":"Refreshed ✓","الرقم السري اتغيّر — ادخل تاني":"PIN changed — log in again","كل أيام الزيارات موجودة في الشيت بالفعل":"All visit days are already in the sheet",
+"تسجيل خروج من البوابة والبرنامجين؟":"Log out of the hub and both apps?","تحديث":"Refresh","تسجيل خروج":"Log out","رجوع":"Back","نسخة احتياطية Excel":"Excel backup","⎋ خروج":"⎋ Logout","اتربط ✓":"Linked ✓","اتشال الربط":"Unlinked",
+"اتعمل موظف جديد في المصروفات واتربط":"New expenses employee created and linked","الاسم أو الرقم السري غلط":"Wrong name or PIN","الرقم السري للمدير غلط":"Wrong manager PIN","مفيش زيارات متسجلة الشهر ده":"No visits logged this month",
+"شيت الشهر ده اتبعت بالفعل":"This month's sheet is already submitted","النسخة الاحتياطية للمدير بس":"Backup is for the manager only","مفيش إنترنت — جرّب تاني":"No internet — try again"};
+const RULES=[[/^زيارة في (.+)$/,"visits in $1"],[/^مدينة(: (.+))?$/,(m,a,b)=>"cities"+(b?": "+b:"")],[/^أهلاً (.+) 👋$/,"Hello $1 👋"],[/^شيت مستنيك تعتمده$/,"sheets awaiting your approval"],[/^شيت مستنيك تراجعه$/,"sheets awaiting your review"],
+[/^✨ جهّز شيت (.+) من زياراتي$/,"✨ Prepare $1 sheet from my visits"],[/^جهّز شيت (.+) من زياراتي$/,"Prepare $1 sheet from my visits"],[/^الشيتات اللي مستنياني \((\d+)\)$/,"Sheets waiting for me ($1)"],[/^✨ جهّز الشيت من زياراتي$/,"✨ Prepare sheet from my visits"],[/^✅ الشيتات اللي مستنياني \((\d+)\)$/,"✅ Sheets waiting for me ($1)"],[/^كل واحد: زياراته ومصروفاته في (.+)$/,"Everyone: visits & expenses in $1"],
+[/^مقترح: (.+)$/,"Suggested: $1"],[/^✓ اتعملت:$/,"✓ Created:"],[/^— $/,"— "],[/^اتضاف (\d+) يوم بدل من (\d+) يوم زيارات ✓ — راجع الشيت وابعته$/,"Added $1 allowance days from $2 visit days ✓ — review and submit"]];
+function tx(v){if(LANG!=="en"||v==null)return v;const k=String(v),m=k.match(/^(\s*)([\s\S]*?)(\s*)$/);const c=m[2];if(!c)return k;if(DICT[c])return m[1]+DICT[c]+m[3];for(const [re,rep] of RULES){if(re.test(c))return m[1]+c.replace(re,rep)+m[3];}return k;}
+function trDom(root){if(LANG!=="en"||!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);ns.forEach(n=>{const v=tx(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;});
+  root.querySelectorAll("[title],[placeholder]").forEach(e=>{["title","placeholder"].forEach(a=>{if(e.hasAttribute(a))e.setAttribute(a,tx(e.getAttribute(a)));});});}
 const n2=x=>(Math.round((+x||0)*100)/100).toLocaleString("en-US",{minimumFractionDigits:0,maximumFractionDigits:2});
 const store={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
-function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),3200);}
+function toast(m){const t=$("#toast");t.textContent=tx(m);t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),3200);}
 function call(fn,...args){return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({fn,args})}).then(r=>r.json()).then(j=>{if(!j.ok)throw new Error(String(j.error||"حصل خطأ").replace(/^Error: ?/,""));return j.data;}).catch(e=>{throw new Error(e.message==="Failed to fetch"?"مفيش إنترنت — جرّب تاني":e.message);});}
 const now=new Date();
 const S={init:store.get("hubInit"),sess:store.get("hub"),tab:"home",m:now.getMonth()+1,y:now.getFullYear(),data:null,dept:store.get("hubDept")||"",mgrLogin:false,loaded:{}};
@@ -345,80 +400,91 @@ function stChip(sh){if(!sh)return '<span class="st none">مفيش شيت</span>'
 function setAppSessions(){const x=S.sess;["rep","mgr","eme","emgr"].forEach(k=>store.del(k));
   if(!x)return; if(x.mode==="emp"){store.set("rep",x.fp);if(x.exp)store.set("eme",x.exp);} else {if(x.keys.fpMgr)store.set("mgr",x.keys.fpMgr);if(x.keys.expMgr)store.set("emgr",x.keys.expMgr);}
   S.loaded={};["fFP","fEX"].forEach(id=>{$("#"+id).removeAttribute("src");});}
-function logout(){if(!confirm("تسجيل خروج من البوابة والبرنامجين؟"))return;S.sess=null;S.data=null;store.del("hub");setAppSessions();S.tab="home";render();}
+function logout(){if(!confirm(tx("تسجيل خروج من البوابة والبرنامجين؟")))return;S.sess=null;S.data=null;store.del("hub");setAppSessions();S.tab="home";render();}
 /* ---------- tabs ---------- */
 function drawTabs(){const t=$("#tabs");if(!S.sess){t.hidden=true;return;}t.hidden=false;const mgr=S.sess.mode==="mgr";
   const L=[["home","🏠 الرئيسية"],["fp",mgr?"📊 لوحة الزيارات":"📍 زياراتي"],["ex",mgr?"🧾 لوحة المصروفات":"🧾 مصروفاتي"]];
   t.innerHTML=L.map(([k,l])=>`<button type="button" data-t="${k}" ${S.tab===k?'aria-current="page"':""}>${l}</button>`).join("");
-  t.querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.t));}
+  t.querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.t));trDom(t);}
 function go(t){S.tab=t;try{history.pushState({t},"");}catch(e){}show();}
 window.addEventListener("popstate",e=>{S.tab=(e.state&&e.state.t)||"home";show();});
-function show(){drawTabs();const fr=t=>({fp:["fFP",FP_URL],ex:["fEX",EX_URL]})[t];
+function show(){drawTabs();["fFP","fEX"].forEach(i=>{const f=$("#"+i);if(f&&f.src)guardFrame(f);});const fr=t=>({fp:["fFP",FP_URL],ex:["fEX",EX_URL]})[t];
   if(S.tab==="home"){$("#frames").style.display="none";$("#app").style.display="";render(true);return;}
   $("#app").style.display="none";$("#frames").style.display="block";
   ["fFP","fEX"].forEach(id=>$("#"+id).style.display="none");const [id,url]=fr(S.tab);const f=$("#"+id);f.style.display="block";
-  if(!S.loaded[id]){f.src=url+"?hub=1";S.loaded[id]=1;}}
+  if(!S.loaded[id]){f.onload=()=>guardFrame(f);f.src=url+"?hub=1";S.loaded[id]=1;}}
+function guardFrame(f){let d;try{d=f.contentDocument;}catch(e){return;}if(!d||!d.head)return;const emp=!S.sess||S.sess.mode!=="mgr";let st=d.getElementById("hubGuard");
+  if(emp&&!st){st=d.createElement("style");st.id="hubGuard";st.textContent='[data-v="mgr"],#mgrLink,#toMgr{display:none!important}';d.head.appendChild(st);}
+  if(!emp&&st)st.remove();}
 function reloadFrames(){S.loaded={};["fFP","fEX"].forEach(id=>$("#"+id).removeAttribute("src"));if(S.tab!=="home")show();}
-function drawTools(){const t=$("#tools");t.innerHTML=`<button class="btn g sm" id="tRef" title="تحديث">↻</button>`+(S.sess?`<button class="btn g sm" id="tOut" title="تسجيل خروج">⎋ خروج</button>`:"");
+const IC={back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+ ref:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>',
+ out:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg>',
+ bk:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/></svg>'};
+function goBack(){if(S.tab!=="home"||history.state&&history.state.t){history.back();}else toast(LANG==="en"?"You're on the home page":"أنت في الرئيسية");}
+async function doBackup(){if(!S.sess||S.sess.mode!=="mgr"){toast("النسخة الاحتياطية للمدير بس");return;}
+  const b=$("#tBk");if(b)b.disabled=true;toast("جارِ عمل النسخة… (ممكن تاخد دقيقة)");
+  try{const r=await call("apiBackup",S.sess.pin);const o=$("#bkOut");if(o){o.innerHTML=`✓ ${LANG==="en"?"Created":"اتعملت"}: ${r.files.map(f=>`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`).join(" · ")} — <a href="${esc(r.folder)}" target="_blank" rel="noopener">${tx("فولدر النسخ")}</a>`;}
+    toast(LANG==="en"?"Backup created ✓":"اتعملت النسخة الاحتياطية ✓");if(!o)window.open(r.folder,"_blank");}catch(ex){toast(ex.message);}if(b)b.disabled=false;}
+function setLang(l){LANG=l;try{localStorage.setItem("lang",l);}catch(e){}location.reload();}
+function drawTools(){const t=$("#tools");const mgr=S.sess&&S.sess.mode==="mgr";
+  t.innerHTML=(S.sess?`<button class="btn g sm" id="tBack" title="رجوع">${IC.back}</button>`:"")+`<button class="btn g sm" id="tRef" title="تحديث">${IC.ref}</button>`+
+   (mgr?`<button class="btn g sm" id="tBk" title="نسخة احتياطية Excel">${IC.bk}</button>`:"")+
+   `<button class="btn g sm" id="tLang" title="${LANG==="en"?"عربي":"English"}" style="font-weight:700">${LANG==="en"?"ع":"EN"}</button>`+
+   (S.sess?`<button class="btn g sm" id="tOut" title="تسجيل خروج">${IC.out}</button>`:"");
+  const tb=$("#tBack");if(tb)tb.onclick=goBack;
   $("#tRef").onclick=async()=>{if(S.tab!=="home"){const id=S.tab==="fp"?"fFP":"fEX";try{$("#"+id).contentWindow.location.reload();}catch(e){}return;}await load();render();toast("اتحدّث ✓");};
+  const bk=$("#tBk");if(bk)bk.onclick=doBackup;
+  $("#tLang").onclick=()=>setLang(LANG==="en"?"ar":"en");
   const o=$("#tOut");if(o)o.onclick=logout;
-  $("#who").textContent=S.sess?(S.sess.mode==="mgr"?"لوحة المدير":S.sess.me.name):"نبض الميدان + المصروفات";}
+  $("#who").textContent=tx(S.sess?(S.sess.mode==="mgr"?"لوحة المدير":S.sess.me.name):"نبض الميدان + المصروفات");trDom(t);}
 /* ---------- views ---------- */
-function monthBar(){const ys=[S.y-1,S.y,S.y+1].filter((v,i,a)=>a.indexOf(v)===i);
-  return `<div class="row" style="gap:8px"><label class="f" style="min-width:130px">الشهر<select id="hM">${MON.map((x,i)=>`<option value="${i+1}" ${i+1===S.m?"selected":""}>${x}</option>`).join("")}</select></label>
-   <label class="f" style="min-width:100px">السنة<select id="hY">${[now.getFullYear()-1,now.getFullYear()].map(y=>`<option ${y===S.y?"selected":""}>${y}</option>`).join("")}</select></label></div>`;}
+function monthBar(){return `<div class="mbar"><select id="hM" aria-label="الشهر">${MON.map((x,i)=>`<option value="${i+1}" ${i+1===S.m?"selected":""}>${x}</option>`).join("")}</select>
+   <select id="hY" aria-label="السنة">${[now.getFullYear()-1,now.getFullYear()].map(y=>`<option ${y===S.y?"selected":""}>${y}</option>`).join("")}</select></div>`;}
+const ADMIN=/admin/i.test(location.search+location.hash);
 function viewLogin(){const P=(S.init&&S.init.people)||[];const ds=[...new Set(P.map(p=>p.dept))];const d=ds.includes(S.dept)?S.dept:(ds[0]||"");
-  if(S.mgrLogin)return `<section class="card" style="max-width:420px;margin:14px auto;display:grid;gap:12px"><h2>دخول المدير</h2>
-   <p class="muted small" style="margin:0">بالرقم السري للمدير بتاع نبض الميدان أو المصروفات — هيفتحلك اللوحتين مرة واحدة.</p>
+  if(S.mgrLogin)return `<section class="login2"><div class="lg"><div class="ti">🔐</div><div><h2>دخول المدير</h2><p class="muted small">بالرقم السري للمدير بتاع نبض الميدان أو المصروفات — هيفتحلك اللوحتين مرة واحدة.</p></div></div>
    <label class="f" for="mPin">الرقم السري للمدير<input id="mPin" type="password" inputmode="numeric"></label><div class="banner b-err" id="lErr" hidden></div>
    <button class="btn p" id="mGo" type="button" style="padding:14px">دخول</button><button class="btn g sm" id="toEmp" type="button" style="justify-self:start">← دخول الموظف</button></section>`;
-  return `<section class="card" style="max-width:480px;margin:14px auto;display:grid;gap:12px">
-   <h2>أهلاً في بوابة HMC</h2><p class="muted small" style="margin:0">دخول واحد لزياراتك ومصروفاتك. اختار قسمك واسمك واكتب الرقم السري بتاع نبض الميدان.</p>
+  return `<section class="login2"><div class="lg"><div class="ti">👋</div><div><h2>أهلاً في بوابة HMC</h2><p class="muted small">دخول واحد لزياراتك ومصروفاتك. اختار قسمك واسمك واكتب الرقم السري بتاع نبض الميدان.</p></div></div>
    ${ds.length>1?`<label class="f" for="lDept">القسم<select id="lDept">${ds.map(x=>`<option ${x===d?"selected":""}>${esc(x)}</option>`).join("")}</select></label>`:""}
    <label class="f" for="lName">اسمك<select id="lName"><option value="">اختار اسمك…</option>${P.filter(p=>p.dept===d).sort((a,b)=>a.name.localeCompare(b.name,"ar")).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("")}</select></label>
    <label class="f" for="lPin">الرقم السري<input id="lPin" type="password" inputmode="numeric" autocomplete="current-password"></label>
    <div class="banner b-err" id="lErr" hidden></div>
    <button class="btn p" id="lGo" type="button" style="padding:14px">دخول</button>
-   <button class="btn g sm" id="toMgr" type="button" style="justify-self:start">🔐 دخول المدير</button></section>
-   <section class="mods" style="max-width:720px;margin:0 auto">
-    <div class="mod"><h3>📍 نبض الميدان</h3><span class="small muted">تسجيل الزيارات بالموقع، الخطة الأسبوعية، العملاء والفرص.</span><a class="small" href="${FP_URL}">افتحه لوحده ←</a></div>
-    <div class="mod"><h3>🧾 مصروفات HMC</h3><span class="small muted">شيت المصروفات الشهري، المراجعة والاعتماد، PDF وExcel.</span><a class="small" href="${EX_URL}">افتحه لوحده ←</a></div></section>`;}
+   ${ADMIN?`<button class="btn g sm" id="toMgr" type="button" style="justify-self:start">🔐 دخول المدير</button>`:""}</section>`;}
+function kc(ic,val,label,extra,cls){return `<div class="kc ${cls||""}"><div class="ic">${ic}</div><div><b>${val}</b><span>${label}</span>${extra||""}</div></div>`;}
+function tile(id,ic,title,sub,main){return `<button class="tile ${main?"main":""}" id="${id}" type="button"><div class="ti">${ic}</div><div><b>${title}</b><small>${sub}</small></div></button>`;}
 function viewEmp(){const d=S.data,s=d&&d.sum,me=S.sess.me;if(!d)return `<div class="loading">جارِ التحميل…</div>`;
-  return `<section class="card" style="display:grid;gap:12px"><div class="row" style="justify-content:space-between;align-items:end"><div><h2 style="margin:0">أهلاً ${esc(me.name)} 👋</h2><div class="small muted">${esc(me.position||"")} · ${esc(me.dept||"")}</div></div>${monthBar()}</div>
+  return `<div class="wrap"><section class="hero2"><div class="top"><div><h2>أهلاً ${esc(me.name)} 👋</h2><div class="sub">${esc(me.position||"")}${me.dept?" · "+esc(me.dept):""}</div></div>${monthBar()}</div></section>
    ${S.sess.exp?"":`<div class="banner b-err">حسابك في المصروفات مش مربوط لسه — المدير يربطه من البوابة. الزيارات شغالة عادي.</div>`}
-   <div class="hk">
-    <div class="kpi"><b>${s.visits}</b><span>زيارة في ${MON[S.m-1]}</span></div>
-    <div class="kpi"><b>${s.days}</b><span>يوم ميداني</span></div>
-    <div class="kpi"><b>${s.cities.length}</b><span>مدينة${s.cities.length?": "+esc(s.cities.slice(0,3).join("، ")):""}</span></div>
-    <div class="kpi"><b>${s.sheet?n2(s.sheet.total):"—"}</b><span>مصروفات الشهر (ر.س)</span><div>${stChip(s.sheet)}</div></div>
-    ${s.queue?`<div class="kpi" style="border-color:var(--warn)"><b>${s.queue}</b><span>شيت مستنيك ${me.expRole==="معتمد نهائي"?"تعتمده":"تراجعه"}</span></div>`:""}
-   </div></section>
-   <section class="card" style="display:grid;gap:10px"><h3 style="margin:0">اعمل إيه دلوقتي؟</h3><div class="act">
-    <button class="btn p" id="aVisit" type="button">📍 سجّل زيارة</button>
-    <button class="btn g" id="aExp" type="button">🧾 افتح مصروفاتي</button>
-    ${S.sess.exp?`<button class="btn g" id="aDraft" type="button">✨ جهّز شيت ${MON[S.m-1]} من زياراتي</button>`:""}
-    ${s.queue?`<button class="btn g" id="aQueue" type="button">✅ الشيتات اللي مستنياني (${s.queue})</button>`:""}
-   </div><div class="small muted">«جهّز الشيت من زياراتي» بيضيف بدل يومي لكل يوم فيه زيارة (لو مش موجود)، وبعدين تراجعه وتعدّل النوع (كامل/نص يوم) وتضيف باقي المصاريف وتبعته.</div></section>`;}
+   <div class="kg">${kc("📍",s.visits,`زيارة في ${MON[S.m-1]}`)}${kc("🗓️",s.days,"يوم ميداني")}${kc("🏙️",s.cities.length,`مدينة${s.cities.length?": "+esc(s.cities.slice(0,3).join("، ")):""}`)}
+    ${kc("🧾",s.sheet?n2(s.sheet.total):"—","مصروفات الشهر (ر.س)",`<div>${stChip(s.sheet)}</div>`)}
+    ${s.queue?kc("✅",s.queue,me.expRole==="معتمد نهائي"?"شيت مستنيك تعتمده":"شيت مستنيك تراجعه","","warn"):""}</div>
+   <section class="sec"><h3>اعمل إيه دلوقتي؟</h3><div class="tiles">
+    ${tile("aVisit","📍","سجّل زيارة","وصلت عند العميل · الخطة · العملاء",1)}
+    ${tile("aExp","🧾","افتح مصروفاتي","الشيت الشهري والـExcel والـPDF")}
+    ${S.sess.exp?tile("aDraft","✨",`جهّز شيت ${MON[S.m-1]} من زياراتي`,"بدل يومي لكل يوم زيارة"):""}
+    ${s.queue?tile("aQueue","✅",`الشيتات اللي مستنياني (${s.queue})`,"مراجعة / اعتماد"):""}
+   </div><p class="note" style="margin:10px 0 0">«جهّز الشيت من زياراتي» بيضيف بدل يومي لكل يوم فيه زيارة (لو مش موجود)، وبعدين تراجعه وتعدّل النوع (كامل/نص يوم) وتضيف باقي المصاريف وتبعته.</p></section></div>`;}
 function viewMgr(){const d=S.data;if(!d)return `<div class="loading">جارِ التحميل…</div>`;
   const opts=r=>`<option value="">— مش مربوط —</option>${r.suggest?`<option value="${esc(r.suggest.id)}">مقترح: ${esc(r.suggest.name)}</option>`:""}${d.exps.filter(e=>!e.linked||e.id===r.expId).map(e=>`<option value="${esc(e.id)}" ${e.id===r.expId?"selected":""}>${esc(e.name)}</option>`).join("")}<option value="new">➕ اعمله حساب مصروفات جديد</option>`;
-  return `<section class="card" style="display:grid;gap:12px"><div class="row" style="justify-content:space-between;align-items:end"><h2 style="margin:0">لوحة المدير — الزيارات والمصروفات</h2>${monthBar()}</div>
-   <div class="hk"><div class="kpi"><b>${d.totals.visits}</b><span>زيارة في ${MON[S.m-1]}</span></div><div class="kpi"><b>${n2(d.totals.expenses)}</b><span>مصروفات الشهر (ر.س)</span></div>
-    <div class="kpi"><b>${d.pending.submitted}</b><span>بانتظار المراجعة</span></div><div class="kpi"><b>${d.pending.reviewed}</b><span>بانتظار الاعتماد</span></div>
-    <div class="kpi"><b>${d.rows.filter(r=>!r.expId).length}</b><span>مش مربوطين بالمصروفات</span></div></div>
-   <div class="act"><button class="btn p" id="aFP" type="button">📊 لوحة الزيارات</button><button class="btn g" id="aEX" type="button">🧾 لوحة المصروفات</button><button class="btn g" id="aBk" type="button">💾 نسخة احتياطية Excel دلوقتي</button></div><div id="bkOut" class="small"></div></section>
-   <section class="card"><h3 style="margin-top:0">كل واحد: زياراته ومصروفاته في ${MON[S.m-1]} ${S.y}</h3><div class="tw2"><table class="tbl"><thead><tr><th>الاسم</th><th>القسم</th><th>زيارات</th><th>أيام</th><th>شيت المصروفات</th><th>الإجمالي</th><th>حسابه في المصروفات</th></tr></thead><tbody>
+  return `<div class="wrap"><section class="hero2"><div class="top"><div><h2>لوحة المدير — الزيارات والمصروفات</h2><div class="sub">HMC Diagnostics</div></div>${monthBar()}</div></section>
+   <div class="kg">${kc("📍",d.totals.visits,`زيارة في ${MON[S.m-1]}`)}${kc("🧾",n2(d.totals.expenses),"مصروفات الشهر (ر.س)")}${kc("⏳",d.pending.submitted,"بانتظار المراجعة","",d.pending.submitted?"warn":"")}${kc("✍️",d.pending.reviewed,"بانتظار الاعتماد","",d.pending.reviewed?"warn":"")}${kc("🔗",d.rows.filter(r=>!r.expId).length,"مش مربوطين بالمصروفات")}</div>
+   <section class="sec"><div class="tiles">${tile("aFP","📊","لوحة الزيارات","الأرقام · العملاء · الفريق · التقارير",1)}${tile("aEX","🧾","لوحة المصروفات","الشيتات · الموظفين · الإعدادات")}${tile("aBk","💾","نسخة احتياطية Excel دلوقتي","الشيتين على Drive")}</div><div id="bkOut" class="small" style="margin-top:8px"></div></section>
+   <section class="sec"><h3>كل واحد: زياراته ومصروفاته في ${MON[S.m-1]} ${S.y}</h3><div class="tw2"><table class="tbl"><thead><tr><th>الاسم</th><th>القسم</th><th>زيارات</th><th>أيام</th><th>شيت المصروفات</th><th>الإجمالي</th><th>حسابه في المصروفات</th></tr></thead><tbody>
    ${d.rows.sort((a,b)=>b.visits-a.visits||a.name.localeCompare(b.name,"ar")).map(r=>`<tr><td><b>${esc(r.name)}</b><div class="small muted">${esc(r.position||"")}</div></td><td>${esc(r.dept)}</td><td>${r.visits}</td><td>${r.days}</td><td>${r.expId?stChip(r.sheet):'<span class="st none">—</span>'}</td><td>${r.sheet?n2(r.sheet.total):"—"}</td>
     <td><select data-link="${esc(r.fpId)}" style="max-width:220px">${opts(r)}</select></td></tr>`).join("")}</tbody></table></div>
-   <p class="small muted">الربط بيخلّي الموظف يدخل الاتنين برقم سري واحد (بتاع نبض الميدان)، وأيام زياراته تتنقل لشيت مصروفاته. «مقترح» يعني لقينا اسم أو إيميل شبهه.</p>
-   <p class="small"><a href="${esc(d.links.fpSheet)}" target="_blank" rel="noopener">شيت نبض الميدان ↗</a> · <a href="${esc(d.links.expSheet)}" target="_blank" rel="noopener">شيت المصروفات ↗</a></p></section>`;}
+   <p class="note">الربط بيخلّي الموظف يدخل الاتنين برقم سري واحد (بتاع نبض الميدان)، وأيام زياراته تتنقل لشيت مصروفاته. «مقترح» يعني لقينا اسم أو إيميل شبهه.</p>
+   <p class="small"><a href="${esc(d.links.fpSheet)}" target="_blank" rel="noopener">شيت نبض الميدان ↗</a> · <a href="${esc(d.links.expSheet)}" target="_blank" rel="noopener">شيت المصروفات ↗</a></p></section></div>`;}
 function render(keepTab){drawTools();drawTabs();const a=$("#app");
-  if(!S.init){a.innerHTML='<div class="loading">جارِ التحميل…</div>';return;}
-  if(!S.sess){$("#frames").style.display="none";a.style.display="";a.innerHTML=viewLogin();bindLogin();return;}
+  if(!S.init){a.innerHTML='<div class="loading">جارِ التحميل…</div>';trDom(a);return;}
+  if(!S.sess){$("#frames").style.display="none";a.style.display="";a.innerHTML=viewLogin();trDom(a);bindLogin();return;}
   if(S.tab!=="home"&&!keepTab){show();return;}
-  a.innerHTML=S.sess.mode==="mgr"?viewMgr():viewEmp();bindHome();}
+  a.innerHTML=S.sess.mode==="mgr"?viewMgr():viewEmp();trDom(a);bindHome();}
 function bindLogin(){const ld=$("#lDept");if(ld)ld.onchange=()=>{S.dept=ld.value;store.set("hubDept",ld.value);render();};
   const tm=$("#toMgr");if(tm)tm.onclick=()=>{S.mgrLogin=true;render();};const te=$("#toEmp");if(te)te.onclick=()=>{S.mgrLogin=false;render();};
-  const err=m=>{const e=$("#lErr");e.textContent=m;e.hidden=false;};
+  const err=m=>{const e=$("#lErr");e.textContent=tx(m);e.hidden=false;};
   const lg=$("#lGo");if(lg)lg.onclick=async()=>{const id=$("#lName").value,pin=$("#lPin").value.trim();if(!id)return err("اختار اسمك");if(!pin)return err("اكتب الرقم السري");
     lg.disabled=true;lg.textContent="جارِ الدخول…";try{const r=await call("apiHubLogin",id,pin,S.m,S.y);S.sess={mode:"emp",fp:r.fp,exp:r.exp,me:r.me};store.set("hub",S.sess);setAppSessions();S.data=r;S.tab="home";render();}catch(ex){err(ex.message);lg.disabled=false;lg.textContent="دخول";}};
   const lp=$("#lPin");if(lp)lp.onkeydown=e=>{if(e.key==="Enter")lg.click();};
@@ -433,9 +499,9 @@ function bindHome(){const hm=$("#hM"),hy=$("#hY");const ch=async()=>{S.m=+hm.val
   const b=(id,f)=>{const e=$("#"+id);if(e)e.onclick=f;};
   b("aVisit",()=>go("fp"));b("aExp",()=>go("ex"));b("aQueue",()=>go("ex"));b("aFP",()=>go("fp"));b("aEX",()=>go("ex"));
   b("aDraft",async()=>{const e=$("#aDraft");e.disabled=true;e.textContent="جارِ التجهيز…";try{const r=await call("apiHubDraft",S.sess.fp.id,S.sess.fp.pin,S.m,S.y);toast(r.added?`اتضاف ${r.added} يوم بدل من ${r.days} يوم زيارات ✓ — راجع الشيت وابعته`:"كل أيام الزيارات موجودة في الشيت بالفعل");await load();S.loaded.fEX=0;$("#fEX").removeAttribute("src");go("ex");}catch(ex){toast(ex.message);e.disabled=false;e.textContent="✨ جهّز الشيت من زياراتي";}});
-  b("aBk",async()=>{const e=$("#aBk"),o=$("#bkOut");e.disabled=true;o.textContent="جارِ عمل النسخة… (ممكن تاخد دقيقة)";try{const r=await call("apiBackup",S.sess.pin);o.innerHTML=`✓ اتعملت: ${r.files.map(f=>`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`).join(" · ")} — <a href="${esc(r.folder)}" target="_blank" rel="noopener">فولدر النسخ</a>`;}catch(ex){o.textContent=ex.message;}e.disabled=false;});
+  b("aBk",doBackup);
   document.querySelectorAll("[data-link]").forEach(s=>s.onchange=async()=>{s.disabled=true;try{const m=await call("apiHubLink",S.sess.pin,s.dataset.link,s.value);toast(m);await load();render();}catch(ex){toast(ex.message);s.disabled=false;}});}
-(async()=>{render();
+(async()=>{if(LANG==="en"){document.documentElement.lang="en";document.documentElement.dir="ltr";document.title="HMC Hub";}trDom(document.querySelector("header"));render();
   try{const i=await call("apiHubInit");S.init=i;store.set("hubInit",{appName:i.appName,depts:i.depts,people:i.people});if(i.logo){const l=$("#logo");l.src=i.logo;l.style.display="";}}catch(e){if(!S.init){$("#app").innerHTML=`<div class="banner b-err">${esc(e.message)}</div>`;return;}}
   if(S.sess){render();await load();}
   try{history.replaceState({t:"home"},"");}catch(e){}
