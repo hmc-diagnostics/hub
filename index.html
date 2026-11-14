@@ -328,7 +328,8 @@ details.more{border-radius:16px}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 const API="https://script.google.com/macros/s/AKfycbyDgwbyN8oN0dCWtqJeAaR-QtGOvGu_mc0qrYiDfJkVtHetCoRew6ImfknJa-er80UNHg/exec";
-const FP_URL="/fieldpulse/",EX_URL="/expenses/";
+const ORIGIN="https://hmc-diagnostics.github.io",FP_URL=ORIGIN+"/fieldpulse/",EX_URL=ORIGIN+"/expenses/";
+if(/^https?:$/.test(location.protocol)&&!/^(hmc-diagnostics\.github\.io|localhost|127\.0\.0\.1)$/.test(location.hostname)){try{window.top.location.href=ORIGIN+"/hub/";}catch(e){location.href=ORIGIN+"/hub/";}}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const MON=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
