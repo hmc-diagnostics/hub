@@ -365,7 +365,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let LANG=(()=>{try{return localStorage.getItem("lang")==="en"?"en":"ar";}catch(e){return "ar";}})();
 const MON=LANG==="en"?["January","February","March","April","May","June","July","August","September","October","November","December"]:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
-const DICT={"بوابة HMC":"HMC Hub","نبض الميدان + المصروفات":"FieldPulse + Expenses","جارِ التحميل…":"Loading…","مسودة":"Draft","بانتظار المراجعة":"Awaiting review","بانتظار الاعتماد":"Awaiting approval","معتمد":"Approved","مرتجع للتعديل":"Returned","مفيش شيت":"No sheet",
+const DICT={"بوابة HMC — الإدارة":"HMC Hub — Management","زيارات ومصروفات الفريق في صفحة واحدة. ادخل بالرقم السري للمدير (نبض الميدان أو المصروفات).":"Team visits and expenses on one page. Sign in with a manager PIN (FieldPulse or Expenses).","للفريق: نبض الميدان":"For the team: FieldPulse","· المصروفات":"· Expenses","بوابة HMC":"HMC Hub","نبض الميدان + المصروفات":"FieldPulse + Expenses","جارِ التحميل…":"Loading…","مسودة":"Draft","بانتظار المراجعة":"Awaiting review","بانتظار الاعتماد":"Awaiting approval","معتمد":"Approved","مرتجع للتعديل":"Returned","مفيش شيت":"No sheet",
 "🏠 الرئيسية":"🏠 Home","📊 لوحة الزيارات":"📊 Visits dashboard","📍 زياراتي":"📍 My visits","🧾 لوحة المصروفات":"🧾 Expenses dashboard","🧾 مصروفاتي":"🧾 My expenses","لوحة المدير":"Manager dashboard",
 "الشهر":"Month","السنة":"Year","دخول المدير":"Manager login","بالرقم السري للمدير بتاع نبض الميدان أو المصروفات — هيفتحلك اللوحتين مرة واحدة.":"Use the FieldPulse or Expenses manager PIN — it opens both dashboards at once.",
 "الرقم السري للمدير":"Manager PIN","دخول":"Log in","← دخول الموظف":"← Employee login","أهلاً في بوابة HMC":"Welcome to HMC Hub","دخول واحد لزياراتك ومصروفاتك. اختار قسمك واسمك واكتب الرقم السري بتاع نبض الميدان.":"One login for your visits and expenses. Pick your department and name, then enter your FieldPulse PIN.",
@@ -442,17 +442,10 @@ function drawTools(){const t=$("#tools");const mgr=S.sess&&S.sess.mode==="mgr";
 function monthBar(){return `<div class="mbar"><select id="hM" aria-label="الشهر">${MON.map((x,i)=>`<option value="${i+1}" ${i+1===S.m?"selected":""}>${x}</option>`).join("")}</select>
    <select id="hY" aria-label="السنة">${[now.getFullYear()-1,now.getFullYear()].map(y=>`<option ${y===S.y?"selected":""}>${y}</option>`).join("")}</select></div>`;}
 const ADMIN=/admin/i.test(location.search+location.hash);
-function viewLogin(){const P=(S.init&&S.init.people)||[];const ds=[...new Set(P.map(p=>p.dept))];const d=ds.includes(S.dept)?S.dept:(ds[0]||"");
-  if(S.mgrLogin)return `<section class="login2"><div class="lg"><div class="ti">🔐</div><div><h2>دخول المدير</h2><p class="muted small">بالرقم السري للمدير بتاع نبض الميدان أو المصروفات — هيفتحلك اللوحتين مرة واحدة.</p></div></div>
+function viewLogin(){return `<section class="login2"><div class="lg"><div class="ti">🔐</div><div><h2>بوابة HMC — الإدارة</h2><p class="muted small">زيارات ومصروفات الفريق في صفحة واحدة. ادخل بالرقم السري للمدير (نبض الميدان أو المصروفات).</p></div></div>
    <label class="f" for="mPin">الرقم السري للمدير<input id="mPin" type="password" inputmode="numeric"></label><div class="banner b-err" id="lErr" hidden></div>
-   <button class="btn p" id="mGo" type="button" style="padding:14px">دخول</button><button class="btn g sm" id="toEmp" type="button" style="justify-self:start">← دخول الموظف</button></section>`;
-  return `<section class="login2"><div class="lg"><div class="ti">👋</div><div><h2>أهلاً في بوابة HMC</h2><p class="muted small">دخول واحد لزياراتك ومصروفاتك. اختار قسمك واسمك واكتب الرقم السري بتاع نبض الميدان.</p></div></div>
-   ${ds.length>1?`<label class="f" for="lDept">القسم<select id="lDept">${ds.map(x=>`<option ${x===d?"selected":""}>${esc(x)}</option>`).join("")}</select></label>`:""}
-   <label class="f" for="lName">اسمك<select id="lName"><option value="">اختار اسمك…</option>${P.filter(p=>p.dept===d).sort((a,b)=>a.name.localeCompare(b.name,"ar")).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("")}</select></label>
-   <label class="f" for="lPin">الرقم السري<input id="lPin" type="password" inputmode="numeric" autocomplete="current-password"></label>
-   <div class="banner b-err" id="lErr" hidden></div>
-   <button class="btn p" id="lGo" type="button" style="padding:14px">دخول</button>
-   ${ADMIN?`<button class="btn g sm" id="toMgr" type="button" style="justify-self:start">🔐 دخول المدير</button>`:""}</section>`;}
+   <button class="btn p" id="mGo" type="button" style="padding:14px">دخول</button>
+   <p class="note" style="margin:0">للفريق: نبض الميدان <a href="${FP_URL}">${FP_URL.replace("https://","")}</a> · المصروفات <a href="${EX_URL}">${EX_URL.replace("https://","")}</a></p></section>`;}
 function kc(ic,val,label,extra,cls){return `<div class="kc ${cls||""}"><div class="ic">${ic}</div><div><b>${val}</b><span>${label}</span>${extra||""}</div></div>`;}
 function tile(id,ic,title,sub,main){return `<button class="tile ${main?"main":""}" id="${id}" type="button"><div class="ti">${ic}</div><div><b>${title}</b><small>${sub}</small></div></button>`;}
 function viewEmp(){const d=S.data,s=d&&d.sum,me=S.sess.me;if(!d)return `<div class="loading">جارِ التحميل…</div>`;
@@ -501,6 +494,7 @@ function bindHome(){const hm=$("#hM"),hy=$("#hY");const ch=async()=>{S.m=+hm.val
   b("aDraft",async()=>{const e=$("#aDraft");e.disabled=true;e.textContent="جارِ التجهيز…";try{const r=await call("apiHubDraft",S.sess.fp.id,S.sess.fp.pin,S.m,S.y);toast(r.added?`اتضاف ${r.added} يوم بدل من ${r.days} يوم زيارات ✓ — راجع الشيت وابعته`:"كل أيام الزيارات موجودة في الشيت بالفعل");await load();S.loaded.fEX=0;$("#fEX").removeAttribute("src");go("ex");}catch(ex){toast(ex.message);e.disabled=false;e.textContent="✨ جهّز الشيت من زياراتي";}});
   b("aBk",doBackup);
   document.querySelectorAll("[data-link]").forEach(s=>s.onchange=async()=>{s.disabled=true;try{const m=await call("apiHubLink",S.sess.pin,s.dataset.link,s.value);toast(m);await load();render();}catch(ex){toast(ex.message);s.disabled=false;}});}
+if(S.sess&&S.sess.mode!=="mgr"){S.sess=null;try{localStorage.removeItem("hub");}catch(e){}}
 (async()=>{if(LANG==="en"){document.documentElement.lang="en";document.documentElement.dir="ltr";document.title="HMC Hub";}trDom(document.querySelector("header"));render();
   try{const i=await call("apiHubInit");S.init=i;store.set("hubInit",{appName:i.appName,depts:i.depts,people:i.people});if(i.logo){const l=$("#logo");l.src=i.logo;l.style.display="";}}catch(e){if(!S.init){$("#app").innerHTML=`<div class="banner b-err">${esc(e.message)}</div>`;return;}}
   if(S.sess){render();await load();}
